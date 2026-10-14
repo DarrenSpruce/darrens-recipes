@@ -64,6 +64,20 @@ input[type="checkbox"]{width:20px;height:20px;accent-color:#235b49;flex-shrink:0
 .notice{border-left:3px solid #7b9a85;background:#f0f3ee;padding:10px 12px;font-size:.86rem;line-height:1.5}
 #error{color:#a12c24}
 @media(max-width:420px){dialog{padding:15px}.card{padding:15px}header{padding:20px 18px}}
+
+.nutrient-panel{background:white;border:1px solid #e0e9e2;border-radius:13px;padding:15px;margin:12px 0}
+.nutrient-panel h3{margin:2px 0 12px}
+.nutrient-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.nutrient-item{padding:9px 10px;border:1px solid #e5eee7;background:#fafcf9;border-radius:9px;line-height:1.4;font-size:.92rem}
+.nutrient-item strong{display:block;margin-bottom:2px}
+.nutrient-details{margin:0;padding-left:20px}
+.nutrient-details li{padding:5px 0;line-height:1.5}
+.nutrition-note{background:#edf4ef;border-left:4px solid #66997d;padding:11px 14px;border-radius:5px;line-height:1.5;margin:14px 0}
+.nutrient-subtitle{margin:17px 0 8px}
+.nutrition-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.nutrition-item{padding:10px 12px;background:#fff;border:1px solid #e1e9e2;border-radius:10px}
+.nutrition-item small{display:block;color:#637469;margin-top:4px}
+@media(max-width:420px){.nutrient-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -76,6 +90,7 @@ input[type="checkbox"]{width:20px;height:20px;accent-color:#235b49;flex-shrink:0
 <button class="tab" data-tab="new" aria-pressed="false">New recipes</button>
 <button class="tab" data-tab="cooked" aria-pressed="false">Cooked</button>
 <button class="tab" data-tab="history" aria-pressed="false">Cooking log</button>
+<button class="tab" data-tab="nutrition" aria-pressed="false">Nutrition</button>
 </div>
 <p id="count">Loading recipes…</p><p id="error"></p>
 <div class="cards" id="cards"></div>
@@ -89,6 +104,7 @@ input[type="checkbox"]{width:20px;height:20px;accent-color:#235b49;flex-shrink:0
 </div>
 <p class="notice">Your cooking log, “Cook next” selections and ingredient ticks are saved <strong>only on this device in this browser</strong>, not on GitHub. Other people see the public recipes but keep separate logs. Use “Download log backup” occasionally to protect your history or move it to another device.</p>
 </section>
+<section id="nutritionView" aria-label="Nutrition overview" style="display:none"><h2>Nutrition overview</h2><p class="small">Ingredient-based nutrition guide for the whole recipe collection. It shows possible nutrient sources, <strong>not</strong> quantities consumed or proof of dietary adequacy.</p><div id="nutritionSummary"></div></section>
 </main>
 <dialog id="details" aria-label="Recipe details"><div id="detail"></div></dialog>
 <script>
@@ -119,12 +135,34 @@ save();render();if(activeId)renderDetail(date)
 }
 function badge(r){return '<span class="badge">'+(cooked(r)?"Cooked":"New recipe")+'</span>'+(isNext(r.id)?'<span class="badge next">Cook next</span>':"")}
 function match(r,q){return [r.title,r.summary,...(r.ingredients||[])].join(" ").toLowerCase().includes(q)}
+function nutritionContent(r){
+const n=r.nutrition;if(!n)return "";
+const macros=Object.entries(n.macro||{}).map(([name,sources])=>'<div class="nutrient-item"><strong>'+esc(name)+'</strong>'+esc(sources)+'</div>').join("");
+const micro=(n.micro||[]).map(x=>'<li><strong>'+esc(x.nutrient)+'</strong> — '+esc(x.sources)+'</li>').join("");
+return '<section class="nutrient-panel"><h3>Nutrition profile</h3><p class="small">Likely contributions from the listed ingredients. No quantities or adequacy claims have been calculated.</p><h4 class="nutrient-subtitle">Macronutrients</h4><div class="nutrient-grid">'+macros+'</div><h4 class="nutrient-subtitle">Vitamins and minerals</h4><ul class="nutrient-details">'+micro+'</ul>'+(n.note?'<p class="nutrition-note">'+esc(n.note)+'</p>':'')+'</section>';
+}
+function renderNutrition(q){
+const visible=recipes.filter(r=>match(r,q));
+$("count").textContent="Nutrition guide · "+visible.length+" recipes"+(q?" matching search":"");
+const macros=[["Energy (kcal)","Not calculated yet; requires full weights and portions."],["Protein","Legumes, tofu, tempeh and chicken feature repeatedly."],["Carbohydrate","Rice, noodles, couscous, potatoes, beans and dried fruit."],["Total fat","Oils, nuts, avocado, coconut milk and feta."],["Saturated fat","Particularly coconut milk, feta and optional chorizo."],["Fibre","Often supplied by pulses, vegetables and whole plant foods."],["Omega-3 fats","Specific sources such as rapeseed oil, flax, chia or walnuts need consideration."]];
+const allNutrients=["Vitamin A","Vitamin B1","Vitamin B2","Vitamin B3","Vitamin B5","Vitamin B6","Biotin (B7)","Folate (B9)","Vitamin B12","Vitamin C","Vitamin D","Vitamin E","Vitamin K","Calcium","Iron","Zinc","Magnesium","Potassium","Iodine","Selenium","Phosphorus","Copper","Manganese","Sodium"];
+const watch=[["Vitamin B12","Mostly plant-based dinners cannot reliably cover B12. Fortified foods and/or supplementation matter."],["Vitamin D","No reliable vitamin D source is identified in these recipes. Fortified foods, supplements and other meals matter."],["Iodine","Check use of iodised salt; unfortified specialty salts and processed foods may not supply enough."],["Omega-3","Consider rapeseed oil, ground flax, chia or walnuts for ALA. Marine omega-3 (EPA/DHA) is a separate issue."],["Calcium","Check whether tofu is calcium-set and whether breakfast soy milk is fortified. Spinach calcium is poorly absorbed."],["Selenium and zinc","Food sources vary in content and bioavailability. Include a varied mix of legumes, grains, nuts and other foods."]];
+const cards=macros.map(([name,explain])=>'<div class="nutrient-item"><strong>'+esc(name)+'</strong>'+esc(explain)+'</div>').join("");
+const rows=allNutrients.map(name=>{
+const count=visible.filter(r=>(r.nutrition?.micro||[]).some(m=>m.nutrient===name)).length;
+return '<div class="nutrition-item"><strong>'+esc(name)+'</strong><small>'+(count?count+" recipe"+(count===1?"":"s")+" with highlighted sources":"Not yet mapped to a reliable recipe source")+'</small></div>';
+}).join("");
+const focus=watch.map(([name,explain])=>'<li><strong>'+esc(name)+':</strong> '+esc(explain)+'</li>').join("");
+$("nutritionSummary").innerHTML='<div class="nutrient-panel"><h3>Macronutrients and energy</h3><div class="nutrient-grid">'+cards+'</div></div><div class="nutrient-panel"><h3>Vitamins and minerals</h3><p class="small">The counts below show recipes where an ingredient was highlighted as a possible source. A low count does not establish deficiency; a high count does not establish sufficient intake.</p><div class="nutrition-list">'+rows+'</div></div><div class="nutrient-panel"><h3>Points to watch across a mostly plant-based diet</h3><ul class="nutrient-details">'+focus+'</ul></div><p class="nutrition-note">To assess whether the diet meets nutritional requirements, we will eventually need serving sizes, actual foods and brands (especially tofu and fortified soy milk), cooking frequency, breakfast/lunch/snacks, and nutrient composition data. The cooking log does not automatically measure portions or nutrients.</p><p class="small">Evidence-based references: <a href="https://www.livsmedelsverket.se/matvanor-halsa--miljo/kostrad/vegansk-mat/" target="_blank" rel="noopener">Swedish Food Agency (vegan nutrition)</a> and <a href="https://pub.norden.org/nord2023-003/recommendations.html" target="_blank" rel="noopener">Nordic Nutrition Recommendations 2023</a>.</p>';
+}
 function render(){
 document.querySelectorAll("[data-tab]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.tab===tab)));
 const q=$("search").value.trim().toLowerCase();
 $("historyView").style.display=tab==="history"?"block":"none";
-$("cards").style.display=tab==="history"?"none":"grid";
+$("nutritionView").style.display=tab==="nutrition"?"block":"none";
+$("cards").style.display=(tab==="history"||tab==="nutrition")?"none":"grid";
 if(tab==="history"){renderHistory(q);return}
+if(tab==="nutrition"){renderNutrition(q);return}
 const found=recipes.filter(r=>match(r,q)&&(tab==="all"||tab==="next"&&isNext(r.id)||tab==="new"&&!cooked(r)||tab==="cooked"&&cooked(r)));
 $("count").textContent=found.length+" of "+recipes.length+" recipes"+(tab!=="all"?" · "+({next:"Cook next",new:"New recipes",cooked:"Cooked"}[tab]):"");
 $("cards").innerHTML=found.map(r=>'<article class="card"><button class="card-open" data-open="'+esc(r.id)+'"><div>'+esc(r.flag||"🍲")+' <span class="meta">'+esc(r.type||"")+' · '+esc(r.time||"")+'</span></div><h2>'+esc(r.title)+'</h2></button><div class="badges">'+badge(r)+'</div><p>'+esc(r.summary||"")+'</p><div class="card-foot"><span class="meta">Logged '+entries(r.id).length+' time'+(entries(r.id).length===1?"":"s")+'</span><button class="mini-btn '+(isNext(r.id)?"active":"")+'" data-next="'+esc(r.id)+'" aria-pressed="'+isNext(r.id)+'">'+(isNext(r.id)?"✓ Cook next":"+ Cook next")+'</button></div></article>').join("")||'<p>No recipes match this view.</p>';
@@ -141,7 +179,7 @@ function renderDetail(selectedDate){
 const r=recipes.find(x=>x.id===activeId);if(!r)return;
 const modal=$("details"),oldScroll=modal.scrollTop;
 const date=validDate(selectedDate)?selectedDate:todayLocal(),checked=checkedIndexes(r.id);
-$("detail").innerHTML='<div class="dialog-top"><div><h2>'+esc(r.flag||"")+' '+esc(r.title)+'</h2><div class="badges">'+badge(r)+'</div></div><button class="close" data-action="close">Close</button></div><p>'+esc(r.summary||"")+'</p><p class="meta">'+esc(r.time||"")+' · Serves '+esc(r.serves||"")+'</p><div class="detail-actions"><div class="action-row"><button class="mini-btn '+(isNext(r.id)?"active":"")+'" data-next="'+esc(r.id)+'">'+(isNext(r.id)?"✓ Selected for Cook next":"+ Add to Cook next")+'</button></div><div class="action-row"><label for="cooked-date">Date cooked:</label><input id="cooked-date" type="date" max="'+todayLocal()+'" value="'+date+'"></div><div class="action-row"><label><input type="checkbox" id="cooked-toggle" '+(logged(r.id,date)?"checked":"")+'> I cooked this on this date</label></div><p class="small" style="margin:0">Cooking log: '+entries(r.id).length+' date'+(entries(r.id).length===1?"":"s")+' recorded.</p></div><h3>Ingredients <span class="small" id="ingredientCount">'+checked.length+'/'+(r.ingredients||[]).length+' ticked</span></h3><button class="text-btn" data-action="clear">Clear ingredient ticks</button><ul class="ingredient-list">'+(r.ingredients||[]).map((x,i)=>'<li><label class="'+(checked.includes(i)?"done":"")+'"><input type="checkbox" data-ingredient="'+i+'" '+(checked.includes(i)?"checked":"")+'><span>'+esc(x)+'</span></label></li>').join("")+'</ul><h3>Method</h3><ol class="steps">'+(r.steps||[]).map(x=>"<li>"+esc(x)+"</li>").join("")+"</ol>"+(r.note?"<h3>Cooking notes</h3><p>"+esc(r.note)+"</p>":"");
+$("detail").innerHTML='<div class="dialog-top"><div><h2>'+esc(r.flag||"")+' '+esc(r.title)+'</h2><div class="badges">'+badge(r)+'</div></div><button class="close" data-action="close">Close</button></div><p>'+esc(r.summary||"")+'</p><p class="meta">'+esc(r.time||"")+' · Serves '+esc(r.serves||"")+'</p><div class="detail-actions"><div class="action-row"><button class="mini-btn '+(isNext(r.id)?"active":"")+'" data-next="'+esc(r.id)+'">'+(isNext(r.id)?"✓ Selected for Cook next":"+ Add to Cook next")+'</button></div><div class="action-row"><label for="cooked-date">Date cooked:</label><input id="cooked-date" type="date" max="'+todayLocal()+'" value="'+date+'"></div><div class="action-row"><label><input type="checkbox" id="cooked-toggle" '+(logged(r.id,date)?"checked":"")+'> I cooked this on this date</label></div><p class="small" style="margin:0">Cooking log: '+entries(r.id).length+' date'+(entries(r.id).length===1?"":"s")+' recorded.</p></div><h3>Ingredients <span class="small" id="ingredientCount">'+checked.length+'/'+(r.ingredients||[]).length+' ticked</span></h3><button class="text-btn" data-action="clear">Clear ingredient ticks</button><ul class="ingredient-list">'+(r.ingredients||[]).map((x,i)=>'<li><label class="'+(checked.includes(i)?"done":"")+'"><input type="checkbox" data-ingredient="'+i+'" '+(checked.includes(i)?"checked":"")+'><span>'+esc(x)+'</span></label></li>').join("")+'</ul><h3>Method</h3><ol class="steps">'+(r.steps||[]).map(x=>"<li>"+esc(x)+"</li>").join("")+"</ol>"+(r.note?"<h3>Cooking notes</h3><p>"+esc(r.note)+"</p>":"")+nutritionContent(r);
 modal.scrollTop=oldScroll;
 }
 function openRecipe(id){if(!recipes.some(r=>r.id===id))return;activeId=id;renderDetail();if(!$("details").open)$("details").showModal()}
