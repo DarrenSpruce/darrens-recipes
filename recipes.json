@@ -1,12 +1,12 @@
 {
-  "default_cook_next": "moroccan-tagine",
+  "default_cook_next": "",
   "recipes": [
     {
       "id": "moroccan-tagine",
       "title": "Moroccan chickpea & apricot tagine",
       "flag": "🇲🇦",
       "type": "vegan",
-      "status": "untested",
+      "status": "tried",
       "time": "40 min",
       "serves": "2–3",
       "summary": "A fragrant tomato, chickpea and apricot stew with couscous and lemon.",
@@ -34,7 +34,7 @@
         "Simmer uncovered for 20–25 minutes, until the vegetables are soft and the sauce is thick. Season with salt, pepper and lemon juice.",
         "Prepare couscous according to the packet. Fluff with a fork and a little olive oil. Serve the tagine over it with herbs and extra lemon."
       ],
-      "note": "Next to try. Use two tins of chickpeas for a more substantial main meal; the quantities and method are a proposed first version, ready to adjust after cooking.",
+      "note": "Use two tins of chickpeas for a more substantial main meal; The method can be refined based on further cooking feedback. Cooked at least twice, confirmed 14 October 2026; exact dates not recorded.",
       "nutrition": {
         "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
         "macro": {
