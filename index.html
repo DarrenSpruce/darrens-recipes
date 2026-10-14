@@ -96,13 +96,17 @@ input[type="checkbox"]{width:20px;height:20px;accent-color:#235b49;flex-shrink:0
 <div class="cards" id="cards"></div>
 <section id="historyView" aria-label="Cooking history">
 <h2>Cooking log</h2>
-<p class="small">Tick “I cooked this” in a recipe to add a dated entry. Each time you cook it, tick the date again.</p>
+<p class="small">Darren's past meals are shared publicly. You can also tick “I cooked this” in a recipe to keep dates on this device.</p>
+<h3>Darren's shared cooking history</h3>
+<p id="publicHistoryStatus" class="small">Loading…</p>
+<div id="sharedHistoryEntries"></div>
+<h3>My device-only cooking dates</h3>
 <div id="historyEntries"></div>
 <div class="tools">
 <button id="export" type="button">Download log backup</button>
 <label for="file-import">Restore a backup</label><input id="file-import" type="file" accept=".json,application/json">
 </div>
-<p class="notice">Your cooking log, “Cook next” selections and ingredient ticks are saved <strong>only on this device in this browser</strong>, not on GitHub. Other people see the public recipes but keep separate logs. Use “Download log backup” occasionally to protect your history or move it to another device.</p>
+<p class="notice">Darren's shared cooking history is <strong>public</strong> and updated through our conversations. When you tick a date in the app, that entry is saved <strong>only on this device</strong> and is not sent to GitHub. Other visitors see Darren's history but have their own private logs. A meal appearing in both logs should not be counted twice. Backups cover your device-only log, Cook next choices and ingredient ticks.</p>
 </section>
 <section id="nutritionView" aria-label="Nutrition overview" style="display:none"><h2>Nutrition overview</h2><p class="small">Ingredient-based nutrition guide for the whole recipe collection. It shows possible nutrient sources, <strong>not</strong> quantities consumed or proof of dietary adequacy.</p><div id="nutritionSummary"></div></section>
 </main>
@@ -114,14 +118,14 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const STORE="darrens-recipes-personal-v1";
 const CACHE="darrens-recipes-catalog-v1";
 const freshState=()=>({nextIds:[],history:[],ticks:{},initialisedNext:false});
-let recipes=[],state=freshState(),tab="all",activeId=null,canStore=true,defaultNext="";
+let recipes=[],sharedEntries=[],sharedLoaded=false,state=freshState(),tab="all",activeId=null,canStore=true,defaultNext="";
 function todayLocal(){const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0")}
 function safeGet(key){try{return localStorage.getItem(key)}catch(e){canStore=false;return null}}
 function safeSet(key,val){try{localStorage.setItem(key,val)}catch(e){canStore=false}}
 function loadState(){try{const data=JSON.parse(safeGet(STORE)||"null");if(data&&typeof data==="object"){state={nextIds:Array.isArray(data.nextIds)?data.nextIds.filter(v=>typeof v==="string"):[],history:Array.isArray(data.history)?data.history.filter(v=>v&&typeof v.id==="string"&&typeof v.date==="string"):[],ticks:data.ticks&&typeof data.ticks==="object"&&!Array.isArray(data.ticks)?data.ticks:{},initialisedNext:!!data.initialisedNext}}}catch(e){state=freshState()}}
 function save(){safeSet(STORE,JSON.stringify(state))}
 function entries(id){return state.history.filter(h=>h.id===id)}
-function cooked(r){return r.status==="tried"||r.status==="cooked"||entries(r.id).length>0}
+function cooked(r){return r.status==="tried"||r.status==="cooked"||entries(r.id).length>0||sharedEntries.some(h=>h.recipeId===r.id)}
 function isNext(id){return state.nextIds.includes(id)}
 function nextToggle(id){state.nextIds=isNext(id)?state.nextIds.filter(x=>x!==id):[...state.nextIds,id];save();render();if(activeId)renderDetail()}
 function validDate(s){return /^\d{4}-\d{2}-\d{2}$/.test(s)&&!Number.isNaN(new Date(s+"T12:00:00").getTime())&&s<=todayLocal()}
@@ -168,18 +172,31 @@ $("count").textContent=found.length+" of "+recipes.length+" recipes"+(tab!=="all
 $("cards").innerHTML=found.map(r=>'<article class="card"><button class="card-open" data-open="'+esc(r.id)+'"><div>'+esc(r.flag||"🍲")+' <span class="meta">'+esc(r.type||"")+' · '+esc(r.time||"")+'</span></div><h2>'+esc(r.title)+'</h2></button><div class="badges">'+badge(r)+'</div><p>'+esc(r.summary||"")+'</p><div class="card-foot"><span class="meta">Logged '+entries(r.id).length+' time'+(entries(r.id).length===1?"":"s")+'</span><button class="mini-btn '+(isNext(r.id)?"active":"")+'" data-next="'+esc(r.id)+'" aria-pressed="'+isNext(r.id)+'">'+(isNext(r.id)?"✓ Cook next":"+ Cook next")+'</button></div></article>').join("")||'<p>No recipes match this view.</p>';
 }
 function dateText(date){const d=new Date(date+"T12:00:00");return Number.isNaN(d.getTime())?date:d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}
+function renderSharedHistory(q){
+const found=sharedEntries.filter(h=>{const r=recipes.find(x=>x.id===h.recipeId);return r&&match(r,q)}).sort((a,b)=>String(b.cookedOn||b.reportedOn||"").localeCompare(String(a.cookedOn||a.reportedOn||"")));
+const total=found.reduce((n,h)=>n+(Number.isInteger(h.count)&&h.count>0?h.count:1),0);
+$("publicHistoryStatus").textContent=sharedLoaded?"At least "+total+" reported cooking occasion"+(total===1?"":"s")+". ‘Reported’ dates refer to our conversation, not necessarily the day cooked.":"Shared history unavailable or still loading.";
+$("sharedHistoryEntries").innerHTML=found.length?found.map(h=>{
+const r=recipes.find(x=>x.id===h.recipeId);
+const count=Number.isInteger(h.count)&&h.count>0?h.count:1;
+const when=h.cookedOn?"Cooked "+dateText(h.cookedOn):"Cooking date unknown; reported "+dateText(h.reportedOn);
+return '<div class="history-item"><button class="recipe-link" data-open="'+esc(r.id)+'"><strong>'+esc(r.flag||"")+' '+esc(r.title)+'</strong><br><span class="small">'+esc(when)+(count>1?" · at least "+count+" times":"")+'</span><br><span class="small">'+esc(h.note||"")+'</span></button></div>';
+}).join(""):"<p>No shared history entries found.</p>";
+}
 function renderHistory(q){
+renderSharedHistory(q);
 const sorted=[...state.history].sort((a,b)=>b.date.localeCompare(a.date));
 const found=sorted.filter(h=>{const r=recipes.find(x=>x.id===h.id);return r&&match(r,q)});
-$("count").textContent=found.length+" logged cooking occasion"+(found.length===1?"":"s");
+$("count").textContent="Cooking history · "+found.length+" date"+(found.length===1?"":"s")+" logged on this device";
 $("historyEntries").innerHTML=found.length?found.map(h=>{const r=recipes.find(x=>x.id===h.id);return '<div class="history-item"><button class="recipe-link" data-open="'+esc(r.id)+'"><strong>'+esc(r.flag||"")+' '+esc(r.title)+'</strong><br><span class="small">'+esc(dateText(h.date))+'</span></button><button class="remove" data-remove="'+esc(h.id)+'" data-date="'+esc(h.date)+'" aria-label="Remove cooking entry for '+esc(r.title)+' on '+esc(h.date)+'">Remove</button></div>'}).join(""):"<p>No cooking dates logged yet. Open a recipe and tick “I cooked this”.</p>";
 }
+function publicCount(id){return sharedEntries.filter(h=>h.recipeId===id).reduce((total,h)=>total+(Number.isInteger(h.count)&&h.count>0?h.count:1),0)}
 function checkedIndexes(id){const a=state.ticks[id];return Array.isArray(a)?a:[]}
 function renderDetail(selectedDate){
 const r=recipes.find(x=>x.id===activeId);if(!r)return;
 const modal=$("details"),oldScroll=modal.scrollTop;
 const date=validDate(selectedDate)?selectedDate:todayLocal(),checked=checkedIndexes(r.id);
-$("detail").innerHTML='<div class="dialog-top"><div><h2>'+esc(r.flag||"")+' '+esc(r.title)+'</h2><div class="badges">'+badge(r)+'</div></div><button class="close" data-action="close">Close</button></div><p>'+esc(r.summary||"")+'</p><p class="meta">'+esc(r.time||"")+' · Serves '+esc(r.serves||"")+'</p><div class="detail-actions"><div class="action-row"><button class="mini-btn '+(isNext(r.id)?"active":"")+'" data-next="'+esc(r.id)+'">'+(isNext(r.id)?"✓ Selected for Cook next":"+ Add to Cook next")+'</button></div><div class="action-row"><label for="cooked-date">Date cooked:</label><input id="cooked-date" type="date" max="'+todayLocal()+'" value="'+date+'"></div><div class="action-row"><label><input type="checkbox" id="cooked-toggle" '+(logged(r.id,date)?"checked":"")+'> I cooked this on this date</label></div><p class="small" style="margin:0">Cooking log: '+entries(r.id).length+' date'+(entries(r.id).length===1?"":"s")+' recorded.</p></div><h3>Ingredients <span class="small" id="ingredientCount">'+checked.length+'/'+(r.ingredients||[]).length+' ticked</span></h3><button class="text-btn" data-action="clear">Clear ingredient ticks</button><ul class="ingredient-list">'+(r.ingredients||[]).map((x,i)=>'<li><label class="'+(checked.includes(i)?"done":"")+'"><input type="checkbox" data-ingredient="'+i+'" '+(checked.includes(i)?"checked":"")+'><span>'+esc(x)+'</span></label></li>').join("")+'</ul><h3>Method</h3><ol class="steps">'+(r.steps||[]).map(x=>"<li>"+esc(x)+"</li>").join("")+"</ol>"+(r.note?"<h3>Cooking notes</h3><p>"+esc(r.note)+"</p>":"")+nutritionContent(r);
+$("detail").innerHTML='<div class="dialog-top"><div><h2>'+esc(r.flag||"")+' '+esc(r.title)+'</h2><div class="badges">'+badge(r)+'</div></div><button class="close" data-action="close">Close</button></div><p>'+esc(r.summary||"")+'</p><p class="meta">'+esc(r.time||"")+' · Serves '+esc(r.serves||"")+'</p><div class="detail-actions"><div class="action-row"><button class="mini-btn '+(isNext(r.id)?"active":"")+'" data-next="'+esc(r.id)+'">'+(isNext(r.id)?"✓ Selected for Cook next":"+ Add to Cook next")+'</button></div><div class="action-row"><label for="cooked-date">Date cooked:</label><input id="cooked-date" type="date" max="'+todayLocal()+'" value="'+date+'"></div><div class="action-row"><label><input type="checkbox" id="cooked-toggle" '+(logged(r.id,date)?"checked":"")+'> I cooked this on this date</label></div><p class="small" style="margin:0">Shared history: at least '+publicCount(r.id)+' time'+(publicCount(r.id)===1?"":"s")+'. On this device: '+entries(r.id).length+' date'+(entries(r.id).length===1?"":"s")+' recorded.</p></div><h3>Ingredients <span class="small" id="ingredientCount">'+checked.length+'/'+(r.ingredients||[]).length+' ticked</span></h3><button class="text-btn" data-action="clear">Clear ingredient ticks</button><ul class="ingredient-list">'+(r.ingredients||[]).map((x,i)=>'<li><label class="'+(checked.includes(i)?"done":"")+'"><input type="checkbox" data-ingredient="'+i+'" '+(checked.includes(i)?"checked":"")+'><span>'+esc(x)+'</span></label></li>').join("")+'</ul><h3>Method</h3><ol class="steps">'+(r.steps||[]).map(x=>"<li>"+esc(x)+"</li>").join("")+"</ol>"+(r.note?"<h3>Cooking notes</h3><p>"+esc(r.note)+"</p>":"")+nutritionContent(r);
 modal.scrollTop=oldScroll;
 }
 function openRecipe(id){if(!recipes.some(r=>r.id===id))return;activeId=id;renderDetail();if(!$("details").open)$("details").showModal()}
@@ -220,6 +237,19 @@ $("error").textContent=canStore?"":"Your browser isn't allowing permanent storag
 render();
 }
 loadState();
+fetch("./cooking-history.json?updated="+Date.now(),{cache:"no-store"}).then(response=>{
+if(!response.ok)throw Error("History not published yet");
+return response.json();
+}).then(data=>{
+sharedEntries=Array.isArray(data.entries)?data.entries.filter(h=>h&&typeof h.recipeId==="string"):[];
+sharedLoaded=true;
+safeSet("darrens-recipes-shared-history-cache",JSON.stringify(data));
+render();if(activeId)renderDetail();
+}).catch(()=>{
+const cache=safeGet("darrens-recipes-shared-history-cache");
+if(cache){try{sharedEntries=JSON.parse(cache).entries||[];sharedLoaded=true}catch(e){}}
+render();if(activeId)renderDetail();
+});
 fetch("./recipes.json?v="+Date.now(),{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("recipe file not yet published");return r.json()}).then(data=>{setRecipes(data);safeSet(CACHE,JSON.stringify(data))}).catch(err=>{
 const old=safeGet(CACHE);if(old){try{setRecipes(JSON.parse(old));$("error").textContent="Showing saved recipes because the latest update could not be loaded.";return}catch(e){}}
 $("count").textContent="Recipes unavailable";$("error").textContent="Could not load recipes: "+err.message;
