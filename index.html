@@ -1,12 +1,191 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#153d35"><title>Darren's Recipes</title>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#153d35">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Darren's Recipes">
+<title>Darren's Recipes</title>
 <style>
-:root{font-family:system-ui,-apple-system,sans-serif;color:#19342e;background:#f6f5ef}*{box-sizing:border-box}body{margin:0}header{background:#153d35;color:white;padding:25px max(18px,calc((100vw - 920px)/2))}header h1{margin:0 0 8px}header p{margin:0;opacity:.85}main{max-width:920px;margin:auto;padding:18px}input{width:100%;font:inherit;padding:14px;border:1px solid #c8d4ce;border-radius:12px;background:white}#count{color:#53635c;font-size:.9rem;margin:12px 0}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}.card{background:white;border:1px solid #e1e7e2;border-radius:15px;padding:18px;text-align:left;cursor:pointer;font:inherit;color:inherit;box-shadow:0 2px 9px #1b362b0a}.card h2{font-size:1.12rem;margin:10px 0}.card p{line-height:1.45}.meta{font-size:.85rem;color:#63766c}dialog{width:min(660px,calc(100vw - 20px));max-height:90dvh;overflow:auto;border:0;border-radius:16px;padding:25px;color:#19342e}dialog::backdrop{background:#0008}dialog h2{margin-top:0}li{margin:8px 0;line-height:1.5}.close{float:right;border:0;background:#e8efeb;padding:8px 13px;border-radius:10px;font-size:1rem;cursor:pointer}#error{color:#a12c24}
-</style></head><body><header><h1>🍽️ Darren's Recipes</h1><p>Our favourite meals, refined as we cook them</p></header><main><input id="search" type="search" placeholder="Search recipes or ingredients…" aria-label="Search recipes"><p id="count">Loading recipes…</p><p id="error"></p><div class="cards" id="cards"></div></main><dialog id="details"><button class="close" onclick="document.getElementById('details').close()">Close</button><div id="detail"></div></dialog>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#19342e;background:#f6f5ef;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0}
+button,input{font:inherit}
+button{cursor:pointer}
+header{background:#153d35;color:white;padding:24px max(18px,calc((100vw - 920px)/2))}
+header h1{margin:0 0 6px;font-size:clamp(1.65rem,4vw,2.4rem)}
+header p{margin:0;color:#d3e1d9}
+main{max-width:920px;margin:auto;padding:18px}
+#search{width:100%;font:inherit;padding:13px 14px;border:1px solid #bfcfc5;border-radius:12px;background:white}
+.tabs{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
+.tab{padding:9px 13px;border:1px solid #c6d6cb;background:white;border-radius:999px;color:#235145}
+.tab[aria-pressed="true"]{background:#205848;color:white;border-color:#205848}
+#count{color:#526a5e;font-size:.9rem;margin:10px 0 16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px}
+.card{background:white;border:1px solid #dee7df;border-radius:15px;padding:17px;box-shadow:0 2px 9px #1b362b0a;display:flex;flex-direction:column;gap:9px}
+.card h2{font-size:1.16rem;line-height:1.3;margin:0}
+.card p{margin:0;line-height:1.5;flex-grow:1}
+.card .card-open{width:100%;border:0;padding:0;background:transparent;text-align:left;color:inherit}
+.meta{font-size:.85rem;color:#597266}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badge{display:inline-block;padding:4px 8px;border-radius:8px;background:#edf2ed;color:#36594a;font-size:.78rem;font-weight:650}
+.badge.next{background:#e2efe8;color:#146245}
+.card-foot{border-top:1px solid #edf0eb;padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mini-btn{border:1px solid #b9d0c2;background:white;color:#195342;border-radius:9px;padding:8px 11px;font-size:.9rem}
+.mini-btn.active{background:#225c4c;color:white}
+dialog{width:min(690px,calc(100vw - 16px));max-height:92dvh;overflow-y:auto;border:0;border-radius:16px;padding:24px;color:#19342e;background:#fff;box-shadow:0 15px 60px #0003}
+dialog::backdrop{background:#0009}
+dialog h2{margin:4px 0 8px;font-size:1.5rem}
+dialog h3{margin:22px 0 9px}
+.dialog-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.close{border:0;background:#e9f0eb;padding:9px 13px;border-radius:10px;flex-shrink:0}
+.detail-actions{background:#f1f5ef;border-radius:13px;padding:13px;margin:16px 0}
+.action-row{display:flex;align-items:center;flex-wrap:wrap;gap:11px;margin:10px 0}
+.action-row input[type="date"]{max-width:180px;border:1px solid #b6c8bc;border-radius:8px;padding:8px;background:white}
+.action-row label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:550}
+input[type="checkbox"]{width:20px;height:20px;accent-color:#235b49;flex-shrink:0;cursor:pointer}
+.ingredient-list{list-style:none;padding:0;margin:10px 0}
+.ingredient-list li{padding:8px 0;border-bottom:1px solid #eef1ec}
+.ingredient-list label{display:flex;align-items:flex-start;gap:10px;line-height:1.45;cursor:pointer}
+.ingredient-list label.done span{text-decoration:line-through;color:#78867b}
+.steps li{margin:10px 0;line-height:1.55}
+.small{font-size:.86rem;color:#5b7166}
+.text-btn{border:none;background:none;padding:5px;color:#195f48;text-decoration:underline}
+.primary{border:none;border-radius:10px;background:#245e4d;color:white;padding:10px 14px}
+#historyView{display:none}
+#historyView h2{margin-bottom:5px}
+.history-item{display:flex;gap:12px;align-items:center;justify-content:space-between;background:white;padding:12px 14px;margin:8px 0;border:1px solid #e1e9e1;border-radius:12px}
+.history-item button.recipe-link{border:0;background:none;text-align:left;color:#204e40;padding:0}
+.history-item button.remove{border:0;background:#f4ebe8;color:#8a3431;border-radius:8px;padding:7px 10px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.tools button,.tools label{display:inline-block;padding:9px 12px;border:1px solid #c8d6cb;background:white;border-radius:9px;cursor:pointer;color:#204c40}
+#file-import{display:none}
+.notice{border-left:3px solid #7b9a85;background:#f0f3ee;padding:10px 12px;font-size:.86rem;line-height:1.5}
+#error{color:#a12c24}
+@media(max-width:420px){dialog{padding:15px}.card{padding:15px}header{padding:20px 18px}}
+</style>
+</head>
+<body>
+<header><h1>🍽️ Darren's Recipes</h1><p>Our favourite meals, refined as we cook them</p></header>
+<main>
+<input id="search" type="search" placeholder="Search recipes or ingredients…" aria-label="Search recipes">
+<div class="tabs" role="group" aria-label="Filter recipes">
+<button class="tab" data-tab="all" aria-pressed="true">All</button>
+<button class="tab" data-tab="next" aria-pressed="false">Cook next</button>
+<button class="tab" data-tab="new" aria-pressed="false">New recipes</button>
+<button class="tab" data-tab="cooked" aria-pressed="false">Cooked</button>
+<button class="tab" data-tab="history" aria-pressed="false">Cooking log</button>
+</div>
+<p id="count">Loading recipes…</p><p id="error"></p>
+<div class="cards" id="cards"></div>
+<section id="historyView" aria-label="Cooking history">
+<h2>Cooking log</h2>
+<p class="small">Tick “I cooked this” in a recipe to add a dated entry. Each time you cook it, tick the date again.</p>
+<div id="historyEntries"></div>
+<div class="tools">
+<button id="export" type="button">Download log backup</button>
+<label for="file-import">Restore a backup</label><input id="file-import" type="file" accept=".json,application/json">
+</div>
+<p class="notice">Your cooking log, “Cook next” selections and ingredient ticks are saved <strong>only on this device in this browser</strong>, not on GitHub. Other people see the public recipes but keep separate logs. Use “Download log backup” occasionally to protect your history or move it to another device.</p>
+</section>
+</main>
+<dialog id="details" aria-label="Recipe details"><div id="detail"></div></dialog>
 <script>
-let recipes=[];const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function render(){const q=$('search').value.trim().toLowerCase();const filtered=recipes.filter(r=>[r.title,r.summary,...(r.ingredients||[])].join(' ').toLowerCase().includes(q));$('count').textContent=filtered.length+' of '+recipes.length+' recipes';$('cards').innerHTML=filtered.map(r=>'<button class="card" data-id="'+esc(r.id)+'"><div>'+esc(r.flag||'🍲')+' <span class="meta">'+esc(r.type||'')+' · '+esc(r.time||'')+'</span></div><h2>'+esc(r.title)+'</h2><p>'+esc(r.summary||'')+'</p><div class="meta">'+esc(r.serves||'')+' servings · '+esc(r.status||'')+'</div></button>').join('');document.querySelectorAll('.card').forEach(b=>b.onclick=()=>openRecipe(b.dataset.id))}
-function openRecipe(id){const r=recipes.find(x=>x.id===id);if(!r)return;$('detail').innerHTML='<h2>'+esc(r.flag||'')+' '+esc(r.title)+'</h2><p>'+esc(r.summary||'')+'</p><p class="meta">'+esc(r.time||'')+' · Serves '+esc(r.serves||'')+'</p><h3>Ingredients</h3><ul>'+(r.ingredients||[]).map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><h3>Method</h3><ol>'+(r.steps||[]).map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol>'+(r.note?'<h3>Cooking notes</h3><p>'+esc(r.note)+'</p>':'');$('details').showModal()}
-$('search').addEventListener('input',render);
-fetch('./recipes.json?updated='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('recipes.json missing');return r.json()}).then(data=>{recipes=Array.isArray(data)?data:data.recipes||[];render()}).catch(e=>{$('count').textContent='Recipes unavailable';$('error').textContent='Could not load recipes.json: '+e.message});
-</script></body></html>
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const STORE="darrens-recipes-personal-v1";
+const CACHE="darrens-recipes-catalog-v1";
+const freshState=()=>({nextIds:[],history:[],ticks:{},initialisedNext:false});
+let recipes=[],state=freshState(),tab="all",activeId=null,canStore=true,defaultNext="";
+function todayLocal(){const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0")}
+function safeGet(key){try{return localStorage.getItem(key)}catch(e){canStore=false;return null}}
+function safeSet(key,val){try{localStorage.setItem(key,val)}catch(e){canStore=false}}
+function loadState(){try{const data=JSON.parse(safeGet(STORE)||"null");if(data&&typeof data==="object"){state={nextIds:Array.isArray(data.nextIds)?data.nextIds.filter(v=>typeof v==="string"):[],history:Array.isArray(data.history)?data.history.filter(v=>v&&typeof v.id==="string"&&typeof v.date==="string"):[],ticks:data.ticks&&typeof data.ticks==="object"&&!Array.isArray(data.ticks)?data.ticks:{},initialisedNext:!!data.initialisedNext}}}catch(e){state=freshState()}}
+function save(){safeSet(STORE,JSON.stringify(state))}
+function entries(id){return state.history.filter(h=>h.id===id)}
+function cooked(r){return r.status==="tried"||r.status==="cooked"||entries(r.id).length>0}
+function isNext(id){return state.nextIds.includes(id)}
+function nextToggle(id){state.nextIds=isNext(id)?state.nextIds.filter(x=>x!==id):[...state.nextIds,id];save();render();if(activeId)renderDetail()}
+function validDate(s){return /^\d{4}-\d{2}-\d{2}$/.test(s)&&!Number.isNaN(new Date(s+"T12:00:00").getTime())&&s<=todayLocal()}
+function logged(id,date){return state.history.some(h=>h.id===id&&h.date===date)}
+function logToggle(id,date,checked){
+if(!validDate(date)){alert("Choose a valid date that is not in the future.");return}
+if(checked&&!logged(id,date)){state.history.push({id,date})}
+if(!checked){state.history=state.history.filter(h=>!(h.id===id&&h.date===date))}
+if(checked){delete state.ticks[id];state.nextIds=state.nextIds.filter(x=>x!==id)}
+save();render();if(activeId)renderDetail(date)
+}
+function badge(r){return '<span class="badge">'+(cooked(r)?"Cooked":"New recipe")+'</span>'+(isNext(r.id)?'<span class="badge next">Cook next</span>':"")}
+function match(r,q){return [r.title,r.summary,...(r.ingredients||[])].join(" ").toLowerCase().includes(q)}
+function render(){
+document.querySelectorAll("[data-tab]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.tab===tab)));
+const q=$("search").value.trim().toLowerCase();
+$("historyView").style.display=tab==="history"?"block":"none";
+$("cards").style.display=tab==="history"?"none":"grid";
+if(tab==="history"){renderHistory(q);return}
+const found=recipes.filter(r=>match(r,q)&&(tab==="all"||tab==="next"&&isNext(r.id)||tab==="new"&&!cooked(r)||tab==="cooked"&&cooked(r)));
+$("count").textContent=found.length+" of "+recipes.length+" recipes"+(tab!=="all"?" · "+({next:"Cook next",new:"New recipes",cooked:"Cooked"}[tab]):"");
+$("cards").innerHTML=found.map(r=>'<article class="card"><button class="card-open" data-open="'+esc(r.id)+'"><div>'+esc(r.flag||"🍲")+' <span class="meta">'+esc(r.type||"")+' · '+esc(r.time||"")+'</span></div><h2>'+esc(r.title)+'</h2></button><div class="badges">'+badge(r)+'</div><p>'+esc(r.summary||"")+'</p><div class="card-foot"><span class="meta">Logged '+entries(r.id).length+' time'+(entries(r.id).length===1?"":"s")+'</span><button class="mini-btn '+(isNext(r.id)?"active":"")+'" data-next="'+esc(r.id)+'" aria-pressed="'+isNext(r.id)+'">'+(isNext(r.id)?"✓ Cook next":"+ Cook next")+'</button></div></article>').join("")||'<p>No recipes match this view.</p>';
+}
+function dateText(date){const d=new Date(date+"T12:00:00");return Number.isNaN(d.getTime())?date:d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}
+function renderHistory(q){
+const sorted=[...state.history].sort((a,b)=>b.date.localeCompare(a.date));
+const found=sorted.filter(h=>{const r=recipes.find(x=>x.id===h.id);return r&&match(r,q)});
+$("count").textContent=found.length+" logged cooking occasion"+(found.length===1?"":"s");
+$("historyEntries").innerHTML=found.length?found.map(h=>{const r=recipes.find(x=>x.id===h.id);return '<div class="history-item"><button class="recipe-link" data-open="'+esc(r.id)+'"><strong>'+esc(r.flag||"")+' '+esc(r.title)+'</strong><br><span class="small">'+esc(dateText(h.date))+'</span></button><button class="remove" data-remove="'+esc(h.id)+'" data-date="'+esc(h.date)+'" aria-label="Remove cooking entry for '+esc(r.title)+' on '+esc(h.date)+'">Remove</button></div>'}).join(""):"<p>No cooking dates logged yet. Open a recipe and tick “I cooked this”.</p>";
+}
+function checkedIndexes(id){const a=state.ticks[id];return Array.isArray(a)?a:[]}
+function renderDetail(selectedDate){
+const r=recipes.find(x=>x.id===activeId);if(!r)return;
+const modal=$("details"),oldScroll=modal.scrollTop;
+const date=validDate(selectedDate)?selectedDate:todayLocal(),checked=checkedIndexes(r.id);
+$("detail").innerHTML='<div class="dialog-top"><div><h2>'+esc(r.flag||"")+' '+esc(r.title)+'</h2><div class="badges">'+badge(r)+'</div></div><button class="close" data-action="close">Close</button></div><p>'+esc(r.summary||"")+'</p><p class="meta">'+esc(r.time||"")+' · Serves '+esc(r.serves||"")+'</p><div class="detail-actions"><div class="action-row"><button class="mini-btn '+(isNext(r.id)?"active":"")+'" data-next="'+esc(r.id)+'">'+(isNext(r.id)?"✓ Selected for Cook next":"+ Add to Cook next")+'</button></div><div class="action-row"><label for="cooked-date">Date cooked:</label><input id="cooked-date" type="date" max="'+todayLocal()+'" value="'+date+'"></div><div class="action-row"><label><input type="checkbox" id="cooked-toggle" '+(logged(r.id,date)?"checked":"")+'> I cooked this on this date</label></div><p class="small" style="margin:0">Cooking log: '+entries(r.id).length+' date'+(entries(r.id).length===1?"":"s")+' recorded.</p></div><h3>Ingredients <span class="small" id="ingredientCount">'+checked.length+'/'+(r.ingredients||[]).length+' ticked</span></h3><button class="text-btn" data-action="clear">Clear ingredient ticks</button><ul class="ingredient-list">'+(r.ingredients||[]).map((x,i)=>'<li><label class="'+(checked.includes(i)?"done":"")+'"><input type="checkbox" data-ingredient="'+i+'" '+(checked.includes(i)?"checked":"")+'><span>'+esc(x)+'</span></label></li>').join("")+'</ul><h3>Method</h3><ol class="steps">'+(r.steps||[]).map(x=>"<li>"+esc(x)+"</li>").join("")+"</ol>"+(r.note?"<h3>Cooking notes</h3><p>"+esc(r.note)+"</p>":"");
+modal.scrollTop=oldScroll;
+}
+function openRecipe(id){if(!recipes.some(r=>r.id===id))return;activeId=id;renderDetail();if(!$("details").open)$("details").showModal()}
+function exportLog(){
+const payload={app:"darrens-recipes",version:1,exportedAt:new Date().toISOString(),personal:state};
+const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="darrens-recipe-log-"+todayLocal()+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+$("cards").addEventListener("click",e=>{const next=e.target.closest("[data-next]");if(next){nextToggle(next.dataset.next);return}const open=e.target.closest("[data-open]");if(open)openRecipe(open.dataset.open)});
+$("detail").addEventListener("click",e=>{const target=e.target.closest("[data-action],[data-next]");if(!target)return;if(target.dataset.next){nextToggle(target.dataset.next);return}if(target.dataset.action==="close"){$("details").close();activeId=null}else if(target.dataset.action==="clear"){delete state.ticks[activeId];save();renderDetail($("cooked-date").value)}});
+$("detail").addEventListener("change",e=>{
+if(e.target.matches("[data-ingredient]")){
+const i=Number(e.target.dataset.ingredient),id=activeId,s=new Set(checkedIndexes(id));e.target.checked?s.add(i):s.delete(i);state.ticks[id]=[...s].sort((a,b)=>a-b);save();e.target.closest("label").classList.toggle("done",e.target.checked);const r=recipes.find(x=>x.id===id);$("ingredientCount").textContent=s.size+"/"+r.ingredients.length+" ticked";
+}else if(e.target.id==="cooked-date"){renderDetail(e.target.value)}
+else if(e.target.id==="cooked-toggle"){logToggle(activeId,$("cooked-date").value,e.target.checked)}
+});
+$("details").addEventListener("close",()=>{activeId=null});
+document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{tab=b.dataset.tab;render()}));
+$("search").addEventListener("input",render);
+$("historyEntries").addEventListener("click",e=>{
+const open=e.target.closest("[data-open]");if(open){openRecipe(open.dataset.open);return}
+const remove=e.target.closest("[data-remove]");if(remove&&confirm("Remove this cooking date from your log?")){state.history=state.history.filter(h=>!(h.id===remove.dataset.remove&&h.date===remove.dataset.date));save();render()}
+});
+$("export").addEventListener("click",exportLog);
+$("file-import").addEventListener("change",async e=>{
+const file=e.target.files&&e.target.files[0];if(!file)return;
+try{const payload=JSON.parse(await file.text());const v=payload.personal;
+if(payload.app!=="darrens-recipes"||!v||!Array.isArray(v.history)||!Array.isArray(v.nextIds)||!v.ticks||typeof v.ticks!=="object")throw Error("Not a compatible recipe log backup.");
+if(!confirm("Restore this backup? This will replace the cooking log, Cook next selections and ingredient ticks saved on this device."))return;
+state={nextIds:v.nextIds.filter(x=>typeof x==="string"),history:v.history.filter(h=>h&&typeof h.id==="string"&&validDate(h.date)),ticks:v.ticks,initialisedNext:true};save();render();alert("Recipe log restored.");
+}catch(err){alert("Could not restore backup: "+err.message)}finally{e.target.value=""}
+});
+function setRecipes(data){
+recipes=Array.isArray(data)?data:Array.isArray(data.recipes)?data.recipes:[];
+defaultNext=Array.isArray(data)?"":data.default_cook_next||"";
+if(!state.initialisedNext){state.nextIds=defaultNext?[defaultNext]:[];state.initialisedNext=true;save()}
+$("error").textContent=canStore?"":"Your browser isn't allowing permanent storage. Cooking ticks and the log might be lost when you close this page.";
+render();
+}
+loadState();
+fetch("./recipes.json?v="+Date.now(),{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("recipe file not yet published");return r.json()}).then(data=>{setRecipes(data);safeSet(CACHE,JSON.stringify(data))}).catch(err=>{
+const old=safeGet(CACHE);if(old){try{setRecipes(JSON.parse(old));$("error").textContent="Showing saved recipes because the latest update could not be loaded.";return}catch(e){}}
+$("count").textContent="Recipes unavailable";$("error").textContent="Could not load recipes: "+err.message;
+});
+</script>
+</body>
+</html>
