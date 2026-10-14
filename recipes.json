@@ -34,7 +34,47 @@
         "Simmer uncovered for 20–25 minutes, until the vegetables are soft and the sauce is thick. Season with salt, pepper and lemon juice.",
         "Prepare couscous according to the packet. Fluff with a fork and a little olive oil. Serve the tagine over it with herbs and extra lemon."
       ],
-      "note": "Next to try. Use two tins of chickpeas for a more substantial main meal; the quantities and method are a proposed first version, ready to adjust after cooking."
+      "note": "Next to try. Use two tins of chickpeas for a more substantial main meal; the quantities and method are a proposed first version, ready to adjust after cooking.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Chickpeas; couscous",
+          "Carbohydrate": "Chickpeas, couscous and apricots",
+          "Fat": "Olive oil; some from chickpeas",
+          "Fibre": "Chickpeas, vegetables and dried apricots"
+        },
+        "micro": [
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "Chickpeas"
+          },
+          {
+            "nutrient": "Iron",
+            "sources": "Chickpeas"
+          },
+          {
+            "nutrient": "Zinc",
+            "sources": "Chickpeas"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "Chickpeas"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Chickpeas, tomato and apricots"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Red pepper, lemon and tomato"
+          },
+          {
+            "nutrient": "Vitamin A",
+            "sources": "Red pepper and apricots (carotenoids)"
+          }
+        ],
+        "note": "Protein improves with an added soy food or extra legumes. Standard couscous is usually refined, not whole grain. Chickpea tin drained weights and added oil change nutrition substantially."
+      }
     },
     {
       "id": "japanese-roast",
@@ -67,7 +107,51 @@
         "Mix miso, soy sauce, vinegar, sesame oil, ginger, sweetener and 1–2 tbsp water. Add broccoli and pepper to the tray; roast another 12–15 minutes. Cook fresh beans separately until tender, or thaw/cook and drain frozen beans thoroughly.",
         "Toss the hot roasted vegetables and tofu with the glaze; fold in drained green beans near the end. Serve with rice, spring onions and sesame."
       ],
-      "note": "You tried frozen green beans in the roast. They released water and made the tray too juicy. Use fresh broccoli/beans, or thaw and drain frozen beans and cook them separately before combining."
+      "note": "You tried frozen green beans in the roast. They released water and made the tray too juicy. Use fresh broccoli/beans, or thaw and drain frozen beans and cook them separately before combining.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Tofu",
+          "Carbohydrate": "Rice and sweet potato",
+          "Fat": "Cooking oil, sesame oil and sesame seeds",
+          "Fibre": "Broccoli, green beans and sweet potato"
+        },
+        "micro": [
+          {
+            "nutrient": "Vitamin A",
+            "sources": "Sweet potato (beta-carotene)"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Broccoli and red pepper"
+          },
+          {
+            "nutrient": "Vitamin K",
+            "sources": "Broccoli and green beans"
+          },
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "Broccoli and green beans"
+          },
+          {
+            "nutrient": "Iron",
+            "sources": "Tofu"
+          },
+          {
+            "nutrient": "Calcium",
+            "sources": "Tofu if calcium-set; broccoli also contributes"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "Tofu and sesame"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Sweet potato and broccoli"
+          }
+        ],
+        "note": "Calcium varies greatly with tofu brand and coagulant; check the label. Soy sauce and miso contribute sodium. Rice variety influences fibre and minerals."
+      }
     },
     {
       "id": "korean-tofu",
@@ -98,7 +182,47 @@
         "Whisk soy sauce, vinegar, sesame oil, maple syrup and gochujang. Toss half with the tofu.",
         "Divide rice and vegetables between bowls, add tofu, and finish with the rest of the dressing, spring onion and sesame."
       ],
-      "note": "You rated the bowl “very nice.” The recipe here is a practical reconstruction of the dish, so adjust the dressing to match the version you liked."
+      "note": "You rated the bowl “very nice.” The recipe here is a practical reconstruction of the dish, so adjust the dressing to match the version you liked.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Tofu",
+          "Carbohydrate": "Rice",
+          "Fat": "Sesame oil, seeds and cooking oil",
+          "Fibre": "Vegetables; more if spinach rather than cucumber-heavy"
+        },
+        "micro": [
+          {
+            "nutrient": "Vitamin A",
+            "sources": "Carrot and spinach (carotenoids)"
+          },
+          {
+            "nutrient": "Vitamin K",
+            "sources": "Spinach or cabbage"
+          },
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "Spinach or cabbage"
+          },
+          {
+            "nutrient": "Iron",
+            "sources": "Tofu and spinach"
+          },
+          {
+            "nutrient": "Calcium",
+            "sources": "Tofu if calcium-set"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Cabbage and vegetables (amount depends on selection)"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "Tofu and sesame"
+          }
+        ],
+        "note": "A higher tofu-to-rice ratio increases protein density. Spinach contributes folate and vitamin K but its calcium is poorly absorbed. Soy sauce raises sodium."
+      }
     },
     {
       "id": "vietnamese-salad",
@@ -130,7 +254,51 @@
         "Whisk lime, vinegar, soy sauce, sweetener, garlic and optional chilli.",
         "Toss noodles, raw vegetables and herbs with the dressing. Top with warm tempeh and nuts."
       ],
-      "note": "The raw vegetables worked well once dressed. Your successful amounts were 50 g dry noodles and 100 g tempeh per portion; chilli nuts were a good substitute."
+      "note": "The raw vegetables worked well once dressed. Your successful amounts were 50 g dry noodles and 100 g tempeh per portion; chilli nuts were a good substitute.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Tempeh and peanuts",
+          "Carbohydrate": "Glass noodles and a little dressing sugar",
+          "Fat": "Peanuts and tempeh",
+          "Fibre": "Raw vegetables, tempeh and peanuts; glass noodles add little"
+        },
+        "micro": [
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Red pepper and lime"
+          },
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "Tempeh and vegetables"
+          },
+          {
+            "nutrient": "Iron",
+            "sources": "Tempeh"
+          },
+          {
+            "nutrient": "Zinc",
+            "sources": "Tempeh and peanuts"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "Tempeh and peanuts"
+          },
+          {
+            "nutrient": "Vitamin E",
+            "sources": "Peanuts"
+          },
+          {
+            "nutrient": "Vitamin A",
+            "sources": "Carrot and red pepper (carotenoids)"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Vegetables and tempeh"
+          }
+        ],
+        "note": "Glass noodles are largely starch; tempeh and peanuts carry most of the protein, fibre and minerals. Tempeh is not a reliable vitamin B12 source."
+      }
     },
     {
       "id": "mexican-bowl",
@@ -161,7 +329,51 @@
         "Warm both tins of black beans and sweetcorn with the vegetables. Add fresh chopped tomatoes only near the end.",
         "Serve in crispy taco shells or over rice with tofu, avocado and coriander. Squeeze lime over everything only just before serving."
       ],
-      "note": "Approved. Use two 480 g tins of black beans for two peppers, cut peppers into small taco-friendly pieces, add tomatoes late and lime only at the end. Crispy taco shells work well."
+      "note": "Approved. Use two 480 g tins of black beans for two peppers, cut peppers into small taco-friendly pieces, add tomatoes late and lime only at the end. Crispy taco shells work well.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Black beans; more if optional tofu included",
+          "Carbohydrate": "Beans, sweetcorn and rice",
+          "Fat": "Avocado and olive oil",
+          "Fibre": "Black beans, avocado and vegetables"
+        },
+        "micro": [
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "Black beans and avocado"
+          },
+          {
+            "nutrient": "Iron",
+            "sources": "Black beans and optional tofu"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "Black beans and avocado"
+          },
+          {
+            "nutrient": "Zinc",
+            "sources": "Black beans"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Black beans, tomato and avocado"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Peppers, lime and tomatoes"
+          },
+          {
+            "nutrient": "Vitamin E",
+            "sources": "Avocado"
+          },
+          {
+            "nutrient": "Calcium",
+            "sources": "Optional calcium-set tofu"
+          }
+        ],
+        "note": "Tofu is optional, so protein and calcium vary. Two large tins of beans add substantial fibre; drained tin weights need checking. Lime and peppers supply vitamin C alongside plant iron."
+      }
     },
     {
       "id": "ethiopian-lentils",
@@ -190,7 +402,47 @@
         "Simmer gently, stirring and adding liquid as needed. Allow 40–50 minutes or until the lentils are fully tender.",
         "Add the tomatoes once the lentils have begun to soften, then simmer to a rich, thick consistency. Season with salt and lemon; serve with rice or flatbread."
       ],
-      "note": "Your onions needed much longer and the lentils took more than 40 minutes. The 700 ml liquid and delayed tomato are practical refinements; judge by tenderness."
+      "note": "Your onions needed much longer and the lentils took more than 40 minutes. The 700 ml liquid and delayed tomato are practical refinements; judge by tenderness.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Red lentils",
+          "Carbohydrate": "Red lentils plus optional rice or bread",
+          "Fat": "Olive oil",
+          "Fibre": "Red lentils, tomato and onion"
+        },
+        "micro": [
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "Lentils"
+          },
+          {
+            "nutrient": "Iron",
+            "sources": "Lentils"
+          },
+          {
+            "nutrient": "Zinc",
+            "sources": "Lentils"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "Lentils"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Lentils and tomatoes"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Tomatoes and lemon"
+          },
+          {
+            "nutrient": "Vitamin B1",
+            "sources": "Lentils"
+          }
+        ],
+        "note": "Rice or flatbread is optional and changes the energy and carbohydrate content. Lentils are a valuable protein/fibre base, but this meal provides little B12, D or long-chain omega-3."
+      }
     },
     {
       "id": "italian-beans",
@@ -219,7 +471,55 @@
         "Add finely chopped cavolo nero and cook until tender, allowing 10–15 minutes or longer for tougher leaves.",
         "Season and add lemon or vinegar just before serving."
       ],
-      "note": "The cavolo nero needed longer than expected; chop it more finely or add it earlier."
+      "note": "The cavolo nero needed longer than expected; chop it more finely or add it earlier.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "White beans",
+          "Carbohydrate": "White beans and vegetables",
+          "Fat": "Olive oil",
+          "Fibre": "White beans, cavolo nero and mushrooms"
+        },
+        "micro": [
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "White beans and cavolo nero"
+          },
+          {
+            "nutrient": "Iron",
+            "sources": "White beans and cavolo nero"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "White beans"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Beans, mushrooms and tomatoes"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Cavolo nero and tomato"
+          },
+          {
+            "nutrient": "Vitamin K",
+            "sources": "Cavolo nero"
+          },
+          {
+            "nutrient": "Vitamin A",
+            "sources": "Cavolo nero (carotenoids)"
+          },
+          {
+            "nutrient": "Vitamin B2",
+            "sources": "Mushrooms"
+          },
+          {
+            "nutrient": "Zinc",
+            "sources": "White beans"
+          }
+        ],
+        "note": "Mushrooms do not reliably supply vitamin D unless UV-treated. Cook the cavolo nero long enough to soften; vitamin C is sensitive to prolonged heating."
+      }
     },
     {
       "id": "thai-curry",
@@ -249,7 +549,47 @@
         "Add green beans and simmer until truly tender; frozen beans need longer. Return tofu to warm through.",
         "Finish with zest and juice of the whole lime, then serve over black rice."
       ],
-      "note": "Approved as “nice.” Longer tofu browning, extra cooking for frozen beans and the full lime made this version work."
+      "note": "Approved as “nice.” Longer tofu browning, extra cooking for frozen beans and the full lime made this version work.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Tofu",
+          "Carbohydrate": "Black rice and vegetables",
+          "Fat": "Coconut milk and cooking oil",
+          "Fibre": "Aubergine, green beans and black rice"
+        },
+        "micro": [
+          {
+            "nutrient": "Iron",
+            "sources": "Tofu"
+          },
+          {
+            "nutrient": "Calcium",
+            "sources": "Tofu if calcium-set"
+          },
+          {
+            "nutrient": "Vitamin K",
+            "sources": "Green beans"
+          },
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "Green beans"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Green beans and lime"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "Black rice and tofu"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Aubergine and green beans"
+          }
+        ],
+        "note": "Coconut milk makes this relatively rich in saturated fat. The amount and brand matter. Consider lighter coconut milk when you want a lower-saturated-fat version; paste can also be salty."
+      }
     },
     {
       "id": "italian-traybake",
@@ -277,7 +617,47 @@
         "Season the chicken separately. Add chicken, green beans and cherry tomatoes to the tray; scatter chorizo if using.",
         "Roast another 15–20 minutes, turning as needed, until the chicken is cooked through (74°C in the thickest part) and potatoes are tender. Rest chicken briefly."
       ],
-      "note": "The earlier traybake looked tasty. Adding the chicken after the vegetables helps keep the fillets juicy."
+      "note": "The earlier traybake looked tasty. Adding the chicken after the vegetables helps keep the fillets juicy.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Chicken",
+          "Carbohydrate": "Potatoes",
+          "Fat": "Olive oil; optional chorizo adds fat",
+          "Fibre": "Vegetables and potatoes"
+        },
+        "micro": [
+          {
+            "nutrient": "Vitamin B3",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Vitamin B6",
+            "sources": "Chicken and potatoes"
+          },
+          {
+            "nutrient": "Selenium",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Phosphorus",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Potatoes and tomatoes"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Peppers, tomatoes and potatoes"
+          },
+          {
+            "nutrient": "Vitamin A",
+            "sources": "Red peppers (carotenoids)"
+          }
+        ],
+        "note": "Chorizo is optional, adding saturated fat and salt; omit for the leaner version. Fibre may be lower than in bean-based recipes."
+      }
     },
     {
       "id": "spanish-traybake",
@@ -305,7 +685,55 @@
         "Rub chicken separately with remaining paprika, oil, herbs, salt and pepper. Stir beans into the vegetables, then nestle chicken on top.",
         "Roast another 15–20 minutes, depending on thickness, until chicken reaches 74°C in its centre. Rest a few minutes and finish with lemon."
       ],
-      "note": "You liked this as “a nice change,” but chicken overcooked when it went in with the vegetables. Stagger the roasting as above."
+      "note": "You liked this as “a nice change,” but chicken overcooked when it went in with the vegetables. Stagger the roasting as above.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Chicken and white beans",
+          "Carbohydrate": "White beans and vegetables",
+          "Fat": "Olive oil",
+          "Fibre": "White beans, peppers and tomatoes"
+        },
+        "micro": [
+          {
+            "nutrient": "Vitamin B3",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Vitamin B6",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Selenium",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Phosphorus",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "White beans"
+          },
+          {
+            "nutrient": "Iron",
+            "sources": "White beans and chicken"
+          },
+          {
+            "nutrient": "Zinc",
+            "sources": "Chicken and white beans"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "White beans and tomatoes"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Peppers and lemon"
+          }
+        ],
+        "note": "A useful combination of animal protein and legumes. Add the chicken partway through roasting to prevent drying out. No firm calcium or vitamin D source."
+      }
     },
     {
       "id": "persian-chicken",
@@ -335,7 +763,47 @@
         "Warm the fruit briefly with a spoon of water and a little lemon juice; avoid burning it.",
         "Serve chicken and fruit over rice with parsley, nuts and more lemon to taste."
       ],
-      "note": "You used cranberries because barberries are difficult to find in Sweden. The result was good but lacked their tartness; add lemon to taste. Quantities are reconstructed, not a record of precisely what you used. Later feedback: increase the fruit sauce with stock and a little extra liquid to avoid dryness; bloom saffron in a spoon of warm water and add to sauce or rice."
+      "note": "You used cranberries because barberries are difficult to find in Sweden. The result was good but lacked their tartness; add lemon to taste. Quantities are reconstructed, not a record of precisely what you used. Later feedback: increase the fruit sauce with stock and a little extra liquid to avoid dryness; bloom saffron in a spoon of warm water and add to sauce or rice.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Chicken; some from optional nuts",
+          "Carbohydrate": "Rice and dried fruit",
+          "Fat": "Olive oil and optional pistachios or almonds",
+          "Fibre": "Onion, nuts and dried fruit; relatively little without a side vegetable"
+        },
+        "micro": [
+          {
+            "nutrient": "Vitamin B3",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Vitamin B6",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Selenium",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Phosphorus",
+            "sources": "Chicken"
+          },
+          {
+            "nutrient": "Vitamin E",
+            "sources": "Optional almonds or pistachios"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "Optional nuts"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Fruit, onion and nuts"
+          }
+        ],
+        "note": "Serve with a generous green vegetable or salad for fibre, folate and vitamin C. Dried cranberries are often sweetened; barberries differ. Add stock to keep the sauce juicy."
+      }
     },
     {
       "id": "greek-butter-beans",
@@ -371,7 +839,59 @@
         "Add spinach until wilted. Fold in tofu and olives and simmer gently for about 3–5 minutes.",
         "Turn off heat, add juice of half a lemon and chopped parsley. Taste before adding salt, as the olives and feta are salty. Scatter crumbled feta over just before serving."
       ],
-      "note": "You described the dish as very nice. Kalamata olives and feta are the preferred additions. Keep extra stock handy for leftovers. With dairy feta this is vegetarian; omit or replace with plant-based feta for vegan."
+      "note": "You described the dish as very nice. Kalamata olives and feta are the preferred additions. Keep extra stock handy for leftovers. With dairy feta this is vegetarian; omit or replace with plant-based feta for vegan.",
+      "nutrition": {
+        "basis": "Qualitative ingredient-based indication, not a nutrient calculation or adequacy rating.",
+        "macro": {
+          "Protein": "Butter beans and tofu; feta adds some",
+          "Carbohydrate": "Butter beans and tomato",
+          "Fat": "Olive oil, olives and feta",
+          "Fibre": "Butter beans, spinach and tomato"
+        },
+        "micro": [
+          {
+            "nutrient": "Folate (B9)",
+            "sources": "Butter beans and spinach"
+          },
+          {
+            "nutrient": "Iron",
+            "sources": "Beans, tofu and spinach"
+          },
+          {
+            "nutrient": "Magnesium",
+            "sources": "Butter beans and tofu"
+          },
+          {
+            "nutrient": "Potassium",
+            "sources": "Butter beans and tomato"
+          },
+          {
+            "nutrient": "Vitamin K",
+            "sources": "Spinach"
+          },
+          {
+            "nutrient": "Vitamin A",
+            "sources": "Spinach (carotenoids)"
+          },
+          {
+            "nutrient": "Vitamin C",
+            "sources": "Lemon and tomatoes"
+          },
+          {
+            "nutrient": "Calcium",
+            "sources": "Feta and calcium-set tofu; spinach calcium is poorly absorbed"
+          },
+          {
+            "nutrient": "Vitamin B12",
+            "sources": "Feta contributes some, not a guaranteed daily supply"
+          },
+          {
+            "nutrient": "Zinc",
+            "sources": "Butter beans and feta"
+          }
+        ],
+        "note": "Olives and feta increase sodium; season after tasting. Calcium depends strongly on the tofu brand. Spinach is not a reliable high-absorption calcium source."
+      }
     }
   ]
 }
