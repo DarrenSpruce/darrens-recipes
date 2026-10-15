@@ -55,3 +55,13 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 ```
 
 Apply each local migration only once. Hosted and local data are separate. Run the app checks with `node tests/verify.mjs` and `pnpm exec tsc --noEmit`.
+
+## Using the kitchen on iPhone
+
+Phones open on Cook next. Three bottom tabs provide Cook next, Recipes and Shopping. The top More menu holds the notebook, log, recipe editor, refresh and backups. Recipe cards have a labelled Cook next control and an Ingredients button; the ingredient view opens full-screen with a Back control and actions at the bottom.
+
+Choose Shop planned meals to add ingredients from the shortlist, or Shop ingredients inside a recipe to add one batch and open Shopping. Original quantities remain grouped by recipe. Adding a new shopping run restores previously bought ingredients without duplicating lines.
+
+For a direct Home Screen icon, open https://darrens-kitchen-rotation.dazspruce.chatgpt.site in Safari, sign in, then choose Share → Add to Home Screen. Enable Open as Web App if offered and tap Add. The app includes Apple Home Screen metadata and a web-app manifest. It requires a connection to load and save; no offline availability is claimed.
+
+The laptop keeps the full collection overview. Automated checks cover the phone starting view and deep links, three tabs, shortlist ordering, bulk shopping, exact quantities, duplicate prevention and Home Screen metadata. Visual checks on a phone browser remain unverified because the managed browser-control capability was unavailable.

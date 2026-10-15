@@ -40,3 +40,15 @@ await build({...base,entryPoints:['app/kitchen.tsx'],outfile:'.sites-runtime/ui-
 const React=await import('react');const {renderToString}=await import('react-dom/server');const {default:Kitchen}=await import('../.sites-runtime/ui-test.mjs');
 const html=renderToString(React.createElement(Kitchen));assert(html.includes('Good food. Worth repeating.'));assert(html.includes('aria-label="Search recipes"'));assert(html.includes('aria-label="Mobile navigation"'));assert(html.includes('Add recipe'));assert.equal((html.match(/class="recipe-card /g)||[]).length,12);assert(html.includes('Your private kitchen'));assert(html.includes('Download backup'));
 console.log('PASS React initial render: 12 working recipe cards, search, editor entrypoint, private status, phone navigation and backup controls');
+
+await build({...base,entryPoints:['lib/phone.ts'],outfile:'.sites-runtime/phone-test.mjs'});
+const {startView,phoneTabs,plannedRecipes,shopPlanned}=await import('../.sites-runtime/phone-test.mjs');
+assert.equal(startView(true,null),'next');assert.equal(startView(false,null),'recipes');assert.equal(startView(true,'shopping'),'shopping');assert.equal(startView(false,'invalid'),'recipes');assert.deepEqual(phoneTabs,['next','recipes','shopping']);
+const planned={...initialState,next:['thai-curry','mexican-bowl']};assert.deepEqual(plannedRecipes(planned).map(r=>r.id),planned.next);
+const basket=shopPlanned(planned);assert.equal(basket.shopping.length,initialState.recipes.find(r=>r.id==='thai-curry').ingredients.length+mexican.ingredients.length);assert.equal(shopPlanned(basket).shopping.length,basket.shopping.length);assert.deepEqual(initialState.shopping,[]);assert(basket.shopping.some(i=>i.text.includes('480 g')));
+const navHtml=html.match(/<nav class="mobile-nav"[^>]*>([\s\S]*?)<\/nav>/)?.[1];assert(navHtml);assert.equal((navHtml.match(/<button/g)||[]).length,3);assert(html.includes('More kitchen options'));assert(html.includes('Shop planned meals')===false);assert(html.includes('Ingredients'));
+const manifest=JSON.parse(await readFile('public/manifest.webmanifest','utf8'));assert.equal(manifest.display,'standalone');assert.equal(manifest.start_url,'/?view=next');assert.equal(manifest.icons[0].src,'/apple-touch-icon.png');assert(css.includes('.recipe-detail-summary,.detail-meta,.detail-actions{display:none}'));assert(css.includes('min-height:48px'));assert(css.includes('font-size:16px'));assert(css.includes('.mobile-backups{display:none!important}'));
+console.log('PASS phone default and deep links, three primary tabs, plan order, bulk shopping with exact quantities and no duplicates, compact ingredient view, large controls and Home Screen metadata');
+
+const bought=structuredClone(basket);bought.shopping[0].done=true;const readded=shopPlanned(bought);assert.equal(readded.shopping.length,bought.shopping.length);assert.equal(readded.shopping[0].done,false);assert.equal(bought.shopping[0].done,true);
+console.log('PASS a new shopping run restores bought ingredients without duplicating them or mutating the saved state');

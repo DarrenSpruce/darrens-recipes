@@ -32,7 +32,8 @@ export function findRecipes(recipes:Recipe[],query:string,diet='all',status='all
 }
 export function addToShopping(state:State,recipe:Recipe):State {
  const items=recipe.ingredients.filter(text=>!state.shopping.some(i=>i.recipeId===recipe.id&&i.text===text)).map(text=>({id:crypto.randomUUID(),text,recipeId:recipe.id,recipeTitle:recipe.title,done:false}));
- return {...state,shopping:[...state.shopping,...items]};
+ const existing=state.shopping.map(i=>i.recipeId===recipe.id&&recipe.ingredients.includes(i.text)&&i.done?{...i,done:false}:i);
+ return {...state,shopping:[...existing,...items]};
 }
 function validNutrition(n:Recipe['nutrition']) {return !n||(typeof n.basis==='string'&&n.macro!==null&&typeof n.macro==='object'&&!Array.isArray(n.macro)&&Object.values(n.macro).every(v=>typeof v==='string')&&Array.isArray(n.micro)&&n.micro.every(i=>i&&typeof i.nutrient==='string'&&typeof i.sources==='string')&&typeof n.note==='string');}
 export function validState(value:unknown):value is State {
