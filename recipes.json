@@ -74,7 +74,8 @@
           }
         ],
         "note": "Protein improves with an added soy food or extra legumes. Standard couscous is usually refined, not whole grain. Chickpea tin drained weights and added oil change nutrition substantially."
-      }
+      },
+      "cuisine": "Moroccan"
     },
     {
       "id": "japanese-roast",
@@ -151,7 +152,8 @@
           }
         ],
         "note": "Calcium varies greatly with tofu brand and coagulant; check the label. Soy sauce and miso contribute sodium. Rice variety influences fibre and minerals."
-      }
+      },
+      "cuisine": "Japanese"
     },
     {
       "id": "korean-tofu",
@@ -222,7 +224,8 @@
           }
         ],
         "note": "A higher tofu-to-rice ratio increases protein density. Spinach contributes folate and vitamin K but its calcium is poorly absorbed. Soy sauce raises sodium."
-      }
+      },
+      "cuisine": "Korean"
     },
     {
       "id": "vietnamese-salad",
@@ -298,7 +301,8 @@
           }
         ],
         "note": "Glass noodles are largely starch; tempeh and peanuts carry most of the protein, fibre and minerals. Tempeh is not a reliable vitamin B12 source."
-      }
+      },
+      "cuisine": "Vietnamese"
     },
     {
       "id": "mexican-bowl",
@@ -310,7 +314,7 @@
       "serves": "2–3",
       "summary": "Charred peppers, beans, sweetcorn, avocado and lime. Add tofu for more protein.",
       "ingredients": [
-        "2 peppers, cut into small taco-friendly pieces",
+        "2 peppers, cut into pieces about 1–1.5 cm wide and 2–3 cm long",
         "1 large onion, sliced",
         "2 tins black beans (about 480 g each), drained",
         "150 g sweetcorn",
@@ -321,7 +325,8 @@
         "1 lime",
         "1 tsp smoked paprika",
         "1 tsp ground cumin",
-        "Fresh coriander, olive oil, salt and pepper"
+        "Fresh coriander, olive oil, salt and pepper",
+        "Crispy taco shells, optional instead of rice"
       ],
       "steps": [
         "Cook the rice. Brown the tofu separately if using.",
@@ -373,7 +378,8 @@
           }
         ],
         "note": "Tofu is optional, so protein and calcium vary. Two large tins of beans add substantial fibre; drained tin weights need checking. Lime and peppers supply vitamin C alongside plant iron."
-      }
+      },
+      "cuisine": "Mexican"
     },
     {
       "id": "ethiopian-lentils",
@@ -442,7 +448,8 @@
           }
         ],
         "note": "Rice or flatbread is optional and changes the energy and carbohydrate content. Lentils are a valuable protein/fibre base, but this meal provides little B12, D or long-chain omega-3."
-      }
+      },
+      "cuisine": "Ethiopian"
     },
     {
       "id": "italian-beans",
@@ -519,7 +526,8 @@
           }
         ],
         "note": "Mushrooms do not reliably supply vitamin D unless UV-treated. Cook the cavolo nero long enough to soften; vitamin C is sensitive to prolonged heating."
-      }
+      },
+      "cuisine": "Italian"
     },
     {
       "id": "thai-curry",
@@ -589,7 +597,8 @@
           }
         ],
         "note": "Coconut milk makes this relatively rich in saturated fat. The amount and brand matter. Consider lighter coconut milk when you want a lower-saturated-fat version; paste can also be salty."
-      }
+      },
+      "cuisine": "Thai"
     },
     {
       "id": "italian-traybake",
@@ -657,7 +666,8 @@
           }
         ],
         "note": "Chorizo is optional, adding saturated fat and salt; omit for the leaner version. Fibre may be lower than in bean-based recipes."
-      }
+      },
+      "cuisine": "Italian"
     },
     {
       "id": "spanish-traybake",
@@ -733,7 +743,8 @@
           }
         ],
         "note": "A useful combination of animal protein and legumes. Add the chicken partway through roasting to prevent drying out. No firm calcium or vitamin D source."
-      }
+      },
+      "cuisine": "Spanish"
     },
     {
       "id": "persian-chicken",
@@ -753,6 +764,7 @@
         "½ tsp turmeric",
         "½ tsp cinnamon",
         "A pinch of saffron, optional",
+        "150–200 ml chicken or vegetable stock, plus extra if needed (proposed sauce amount)",
         "1 tbsp lemon juice",
         "A handful of parsley",
         "Olive oil, salt and pepper"
@@ -760,7 +772,7 @@
       "steps": [
         "Cook rice according to the packet. If using barberries, rinse briefly; if using cranberries, add extra lemon for tartness.",
         "Soften onion in oil, then add turmeric and cinnamon. Add chicken and cook, turning, until browned and cooked through (74°C).",
-        "Warm the fruit briefly with a spoon of water and a little lemon juice; avoid burning it.",
+        "Bloom saffron, if using, in a spoonful of warm water. Warm the fruit with 150–200 ml stock and lemon juice for a generous sauce. Simmer briefly; add more stock if needed. Stir in the saffron, or reserve it for the rice. This stock amount is a proposed refinement from your feedback.",
         "Serve chicken and fruit over rice with parsley, nuts and more lemon to taste."
       ],
       "note": "You used cranberries because barberries are difficult to find in Sweden. The result was good but lacked their tartness; add lemon to taste. Quantities are reconstructed, not a record of precisely what you used. Later feedback: increase the fruit sauce with stock and a little extra liquid to avoid dryness; bloom saffron in a spoon of warm water and add to sauce or rice.",
@@ -803,7 +815,8 @@
           }
         ],
         "note": "Serve with a generous green vegetable or salad for fibre, folate and vitamin C. Dried cranberries are often sweetened; barberries differ. Add stock to keep the sauce juicy."
-      }
+      },
+      "cuisine": "Persian"
     },
     {
       "id": "greek-butter-beans",
@@ -891,7 +904,8 @@
           }
         ],
         "note": "Olives and feta increase sodium; season after tasting. Calcium depends strongly on the tofu brand. Spinach is not a reliable high-absorption calcium source."
-      }
+      },
+      "cuisine": "Greek"
     }
   ]
 }

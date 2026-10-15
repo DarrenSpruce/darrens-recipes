@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "owner": "Darren",
+  "note": "Public cooking history reconstructed from Darren's reports. 'reportedOn' is when cooking was discussed, NOT necessarily the day cooked. Missing 'cookedOn' dates are deliberately unknown. Counts are confirmed minimums, not complete lifetime totals. Entries from the public log are separate from each viewer's locally stored cooking dates.",
+  "entries": [
+    {
+      "id": "moroccan-two",
+      "recipeId": "moroccan-tagine",
+      "count": 2,
+      "cookedOn": null,
+      "reportedOn": "2026-10-14",
+      "note": "You confirmed having cooked this twice. Exact cooking dates are unknown."
+    },
+    {
+      "id": "japanese-confirmed",
+      "recipeId": "japanese-roast",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-09-29",
+      "note": "You reported having made the roast; frozen green beans released too much water."
+    },
+    {
+      "id": "korean-confirmed",
+      "recipeId": "korean-tofu",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-09-26",
+      "note": "Included in your list of dishes already cooked; date of cooking not specified."
+    },
+    {
+      "id": "vietnamese-confirmed",
+      "recipeId": "vietnamese-salad",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-08-26",
+      "note": "You enjoyed the glass-noodle and tempeh salad; 50 g noodles and 100 g tempeh per serving worked well."
+    },
+    {
+      "id": "mexican-first",
+      "recipeId": "mexican-bowl",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-08-26",
+      "note": "You reported enjoying the black-bean fajita recipe."
+    },
+    {
+      "id": "mexican-again",
+      "recipeId": "mexican-bowl",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-10-09",
+      "note": "You reported cooking it again and adjusting bean quantities, lime and tomatoes."
+    },
+    {
+      "id": "ethiopian-confirmed",
+      "recipeId": "ethiopian-lentils",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-09-26",
+      "note": "Included in your list of dishes already cooked; exact date not specified."
+    },
+    {
+      "id": "italian-stew-confirmed",
+      "recipeId": "italian-beans",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-09-16",
+      "note": "You reported a nice stew; the cavolo nero needed longer to soften."
+    },
+    {
+      "id": "thai-confirmed",
+      "recipeId": "thai-curry",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-09-22",
+      "note": "You said the Thai red tofu curry was nice."
+    },
+    {
+      "id": "italian-chicken-confirmed",
+      "recipeId": "italian-traybake",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-09-26",
+      "note": "Included in your list of meals already cooked; exact date not specified."
+    },
+    {
+      "id": "spanish-chicken-confirmed",
+      "recipeId": "spanish-traybake",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-09-26",
+      "note": "You said the traybake was a nice change; chicken needed adding later than vegetables."
+    },
+    {
+      "id": "persian-first",
+      "recipeId": "persian-chicken",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-09-25",
+      "note": "You shared your first Persian chicken experiment using cranberries."
+    },
+    {
+      "id": "persian-again",
+      "recipeId": "persian-chicken",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-10-12",
+      "note": "You cooked it again and wanted a more generous, juicy sauce."
+    },
+    {
+      "id": "greek-confirmed",
+      "recipeId": "greek-butter-beans",
+      "count": 1,
+      "cookedOn": null,
+      "reportedOn": "2026-10-14",
+      "note": "You said the Greek butter beans were very nice and suggested olives and feta."
+    }
+  ]
+}

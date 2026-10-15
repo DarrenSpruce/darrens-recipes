@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#153d35"><title>Kitchen notebook · Darren’s Recipes</title><style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#19342e;background:#f6f5ef;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0}
+button,input{font:inherit}
+button{cursor:pointer}
+header{background:#153d35;color:white;padding:24px max(18px,calc((100vw - 920px)/2))}
+header h1{margin:0 0 6px;font-size:clamp(1.65rem,4vw,2.4rem)}
+header p{margin:0;color:#d3e1d9}
+main{max-width:920px;margin:auto;padding:18px}
+#search{width:100%;font:inherit;padding:13px 14px;border:1px solid #bfcfc5;border-radius:12px;background:white}
+.tabs{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
+.tab{padding:9px 13px;border:1px solid #c6d6cb;background:white;border-radius:999px;color:#235145}
+.tab[aria-pressed="true"]{background:#205848;color:white;border-color:#205848}
+#count{color:#526a5e;font-size:.9rem;margin:10px 0 16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px}
+.card{background:white;border:1px solid #dee7df;border-radius:15px;padding:17px;box-shadow:0 2px 9px #1b362b0a;display:flex;flex-direction:column;gap:9px}
+.card h2{font-size:1.16rem;line-height:1.3;margin:0}
+.card p{margin:0;line-height:1.5;flex-grow:1}
+.card .card-open{width:100%;border:0;padding:0;background:transparent;text-align:left;color:inherit}
+.meta{font-size:.85rem;color:#597266}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badge{display:inline-block;padding:4px 8px;border-radius:8px;background:#edf2ed;color:#36594a;font-size:.78rem;font-weight:650}
+.badge.next{background:#e2efe8;color:#146245}
+.card-foot{border-top:1px solid #edf0eb;padding-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mini-btn{border:1px solid #b9d0c2;background:white;color:#195342;border-radius:9px;padding:8px 11px;font-size:.9rem}
+.mini-btn.active{background:#225c4c;color:white}
+dialog{width:min(690px,calc(100vw - 16px));max-height:92dvh;overflow-y:auto;border:0;border-radius:16px;padding:24px;color:#19342e;background:#fff;box-shadow:0 15px 60px #0003}
+dialog::backdrop{background:#0009}
+dialog h2{margin:4px 0 8px;font-size:1.5rem}
+dialog h3{margin:22px 0 9px}
+.dialog-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.close{border:0;background:#e9f0eb;padding:9px 13px;border-radius:10px;flex-shrink:0}
+.detail-actions{background:#f1f5ef;border-radius:13px;padding:13px;margin:16px 0}
+.action-row{display:flex;align-items:center;flex-wrap:wrap;gap:11px;margin:10px 0}
+.action-row input[type="date"]{max-width:180px;border:1px solid #b6c8bc;border-radius:8px;padding:8px;background:white}
+.action-row label{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:550}
+input[type="checkbox"]{width:20px;height:20px;accent-color:#235b49;flex-shrink:0;cursor:pointer}
+.ingredient-list{list-style:none;padding:0;margin:10px 0}
+.ingredient-list li{padding:8px 0;border-bottom:1px solid #eef1ec}
+.ingredient-list label{display:flex;align-items:flex-start;gap:10px;line-height:1.45;cursor:pointer}
+.ingredient-list label.done span{text-decoration:line-through;color:#78867b}
+.steps li{margin:10px 0;line-height:1.55}
+.small{font-size:.86rem;color:#5b7166}
+.text-btn{border:none;background:none;padding:5px;color:#195f48;text-decoration:underline}
+.primary{border:none;border-radius:10px;background:#245e4d;color:white;padding:10px 14px}
+#historyView{display:none}
+#historyView h2{margin-bottom:5px}
+.history-item{display:flex;gap:12px;align-items:center;justify-content:space-between;background:white;padding:12px 14px;margin:8px 0;border:1px solid #e1e9e1;border-radius:12px}
+.history-item button.recipe-link{border:0;background:none;text-align:left;color:#204e40;padding:0}
+.history-item button.remove{border:0;background:#f4ebe8;color:#8a3431;border-radius:8px;padding:7px 10px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.tools button,.tools label{display:inline-block;padding:9px 12px;border:1px solid #c8d6cb;background:white;border-radius:9px;cursor:pointer;color:#204c40}
+#file-import{display:none}
+.notice{border-left:3px solid #7b9a85;background:#f0f3ee;padding:10px 12px;font-size:.86rem;line-height:1.5}
+#error{color:#a12c24}
+@media(max-width:420px){dialog{padding:15px}.card{padding:15px}header{padding:20px 18px}}
+
+.nutrient-panel{background:white;border:1px solid #e0e9e2;border-radius:13px;padding:15px;margin:12px 0}
+.nutrient-panel h3{margin:2px 0 12px}
+.nutrient-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.nutrient-item{padding:9px 10px;border:1px solid #e5eee7;background:#fafcf9;border-radius:9px;line-height:1.4;font-size:.92rem}
+.nutrient-item strong{display:block;margin-bottom:2px}
+.nutrient-details{margin:0;padding-left:20px}
+.nutrient-details li{padding:5px 0;line-height:1.5}
+.nutrition-note{background:#edf4ef;border-left:4px solid #66997d;padding:11px 14px;border-radius:5px;line-height:1.5;margin:14px 0}
+.nutrient-subtitle{margin:17px 0 8px}
+.nutrition-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.nutrition-item{padding:10px 12px;background:#fff;border:1px solid #e1e9e2;border-radius:10px}
+.nutrition-item small{display:block;color:#637469;margin-top:4px}
+@media(max-width:420px){.nutrient-grid{grid-template-columns:1fr}}
+
+html{scroll-behavior:smooth}a{color:#195f48}.tabs a{text-decoration:none}.notebook-entry{background:white;border:1px solid #dee7df;border-radius:15px;padding:24px;margin:20px 0;scroll-margin-top:18px;line-height:1.6}.notebook-entry h2{margin:12px 0 4px}.notebook-entry h3{margin-bottom:8px}.entry-top{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap}.entry-top a{font-size:.85rem}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left}th,td{padding:10px 8px;border-bottom:1px solid #e1e9e2}th{background:#f1f5ef}caption{text-align:left;font-size:.86rem;color:#5b7166;padding-bottom:8px}details{background:#f5f6f0;padding:14px;border-radius:10px;margin:20px 0}summary{cursor:pointer;font-weight:650}.related{border-top:1px solid #e1e9e2;padding-top:15px}[hidden]{display:none!important}:focus-visible{outline:3px solid #bf8530;outline-offset:3px}@media(max-width:420px){.notebook-entry{padding:16px}th,td{padding:8px 5px}}
+</style></head><body><header><h1>📖 Kitchen notebook</h1><p>Darren’s methods, observations and experiments</p></header>
+<main>
+<nav class="tabs" aria-label="Main navigation"><a class="tab" href="index.html">← Meals, cooking log &amp; nutrition</a><a class="tab" href="#sourdough">Sourdough</a><a class="tab" href="#starter">Starter maintenance</a></nav>
+<p>A decade of baking experience, kept alongside the meals. These are my personal working methods, with room to refine them over time.</p>
+<label for="search" class="small">Find something in the notebook</label>
+<input id="search" type="search" placeholder="Search methods, ingredients or observations…" aria-label="Search kitchen notebook">
+<p id="count" aria-live="polite"></p>
+<article class="notebook-entry" id="sourdough">
+<div class="entry-top"><span class="badge">Bread · Usual method</span><a href="#sourdough">Link to this entry</a></div>
+<h2>My everyday sourdough</h2>
+<p class="small">Recorded 15 October 2026 · Based on Darren’s account</p>
+<p>My simple baseline: mix, refrigerate for about 24 hours, then shape just before baking. Quantities stay flexible as I experiment.</p>
+<h3>Ingredients</h3>
+<div class="table-wrap"><table><caption>One batch — 600 g total flour mixture, before adding starter</caption><thead><tr><th>Ingredient</th><th>Usual amount</th></tr></thead><tbody>
+<tr><td>Rye flour</td><td>50–100 g</td></tr><tr><td>Spelt flour</td><td>100 g</td></tr><tr><td>Wheat gluten (77% protein product)</td><td>80–100 g</td></tr><tr><td>White flour or lantvete</td><td>Enough to bring the mixture to 600 g total</td></tr><tr><td>Water</td><td>Around 430 g</td></tr><tr><td>Starter</td><td>200–250 g</td></tr><tr><td>Salt</td><td>12–14 g</td></tr></tbody></table></div>
+<h3>Mix and ferment</h3><ol class="steps"><li>Mix the flour mixture with the water.</li><li>Add the starter and salt. Mix by hand or with a dough hook for 5–10 minutes.</li><li>Put in a bowl and let rise <strong>in the fridge for around 24 hours</strong>.</li></ol>
+<h3>Shape at the last minute</h3><ol class="steps"><li>Scrape the dough from the bowl onto baking paper with a cake scraper.</li><li>Rub flour over the surface and shape it.</li><li>Run a long knife over the top to create grooves, then bake.</li></ol>
+<h3>Baking sequence</h3><div class="table-wrap"><table><thead><tr><th>Stage</th><th>Temperature</th><th>Fan</th><th>Time</th></tr></thead><tbody><tr><td>Start</td><td>250°C</td><td>On</td><td>10 min</td></tr><tr><td>Continue</td><td>220°C</td><td>On</td><td>10 min</td></tr><tr><td>Finish</td><td>220°C</td><td>Off</td><td>10 min</td></tr></tbody></table></div>
+<p>A long, thin loaf needs no extra time: <strong>30 minutes total</strong>. A brick-shaped loaf gets another <strong>5–10 minutes</strong>: 35–40 minutes total.</p>
+<details open><summary>Experiments &amp; observations</summary><ul class="steps"><li>I experiment with time outside the fridge before or after refrigeration, herbs and other ingredients.</li><li>On a recent wetter batch, I used the baking paper to support the shape and held it together with a peg, because the dough would otherwise have flattened considerably. Reported 15 October 2026; baking date not recorded.</li></ul><p class="small">The peg observation is not a standard baking instruction; whether it went in the oven and what it was made of have not been recorded.</p></details>
+<p class="related">Related knowledge: <a href="#starter">Maintaining my starter →</a></p>
+</article>
+<article class="notebook-entry" id="starter">
+<div class="entry-top"><span class="badge">Bread · Living culture</span><a href="#starter">Link to this entry</a></div>
+<h2>Maintaining my starter</h2><p class="small">Recorded 15 October 2026 · Darren’s personal observations and practice</p>
+<h3>Storage and feeding</h3><ul class="steps"><li>Keep it cool in the fridge; don’t leave it unattended for more than a week.</li><li>When taken out for feeding, feed twice a day, doubling the total weight each time.</li><li>I think in quantities of <strong>25 → 50 → 100 → 200 g</strong>. Add equal weights of flour and water: for example, 100 g starter + 50 g flour + 50 g water = 200 g.</li><li>If I’m not ready to bake, discard some to keep the quantity manageable.</li></ul>
+<h3>Fragrance: what I look for</h3><p>I smell the starter to check its fragrance. I want it aromatic, not vinegary or cheesy.</p>
+<details open><summary>My stiff-starter refresh method</summary><p>When I encounter a cheesy-smelling starter, I make a <strong>stiff starter</strong>, discard half and continue twice-daily feeding cycles, maintaining the drier consistency until the cheesy smell disappears.</p><p class="small">Recorded as personal experience, not a validated rescue or food-safety procedure. A change in smell alone does not establish that a starter is safe.</p></details>
+<h3>Starting again from mature bread dough</h3><p>I sometimes take a piece of dough that is ready to bake and use it to start the next starter. This dough already includes the flour mixture and salt from the loaf.</p>
+<p class="related">Related method: <a href="#sourdough">My everyday sourdough →</a></p>
+</article>
+<p id="empty" hidden>No notebook entries match. Try a different word.</p>
+<section class="notebook-entry" id="collection"><h2>Growing the notebook</h2><p>Pizza, croissants and Spanish omelette are future topics. Existing Evernote recipes can be added selectively, keeping their methods and practical notes together.</p><p class="small">These entries are shared publicly with the app. To add or revise an entry, send the notes in our conversation or edit notebook.html in GitHub. Evernote notes have not been connected or imported yet.</p></section>
+</main><script>const search=document.getElementById("search");
+const entries=[...document.querySelectorAll("article.notebook-entry")];
+function filterEntries(){const q=search.value.trim().toLowerCase();let count=0;entries.forEach(entry=>{entry.hidden=!entry.textContent.toLowerCase().includes(q);if(!entry.hidden)count++;});document.getElementById("count").textContent=count+" of "+entries.length+" notebook entries";document.getElementById("empty").hidden=count!==0;}
+function revealLinkedEntry(){const id=location.hash.slice(1);const entry=entries.find(e=>e.id===id);if(entry){search.value="";filterEntries();entry.scrollIntoView();}}
+search.addEventListener("input",filterEntries);window.addEventListener("hashchange",revealLinkedEntry);filterEntries();revealLinkedEntry();</script></body></html>

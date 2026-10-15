@@ -1,0 +1,8 @@
+# Private app backups and local-only development files
+darrens-kitchen-*.json
+backups/
+**/node_modules/
+**/.env*
+**/.sites-runtime/
+**/.wrangler/
+*.tsbuildinfo
